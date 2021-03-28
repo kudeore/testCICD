@@ -1,0 +1,1523 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "name": "Untitled20.ipynb",
+      "provenance": [],
+      "collapsed_sections": [],
+      "authorship_tag": "ABX9TyOIIhosTtUYu6sIgqzzm4kh",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    },
+    "accelerator": "GPU"
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/kudeore/testCICD/blob/main/Assignment\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "ObMeolEVBkQJ",
+        "outputId": "240ac771-ebd0-4fb1-cdb8-34202375f842"
+      },
+      "source": [
+        "from google.colab import drive\n",
+        "drive.mount('/content/drive')"
+      ],
+      "execution_count": 1,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "Mounted at /content/drive\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "OCL_8zCHCiY5"
+      },
+      "source": [
+        "import os "
+      ],
+      "execution_count": 2,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "RpCZit5CC4Cu"
+      },
+      "source": [
+        "os.chdir('/content/drive/My Drive/Assignment')"
+      ],
+      "execution_count": 3,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "BY-pkLVDDD2S",
+        "outputId": "3149c4f2-c06d-4d83-c46f-9aefb60e4fe0"
+      },
+      "source": [
+        "!ls"
+      ],
+      "execution_count": 4,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "processed_train.csv  test_indessa.csv  Untitled.ipynb\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "9Ul6T6G-DE8H"
+      },
+      "source": [
+        "import pandas as pd\n",
+        "import numpy as np\n",
+        "import seaborn as sn\n",
+        "import numpy as np\n",
+        "import matplotlib.pyplot as plt"
+      ],
+      "execution_count": 5,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "wIdEC_0bDtaZ"
+      },
+      "source": [
+        "#import processed data\n",
+        "data=pd.read_csv('processed_train.csv')"
+      ],
+      "execution_count": 6,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 216
+        },
+        "id": "0PTpEeWvDw-v",
+        "outputId": "87efbe29-9075-46ef-84f5-92cf8c5c0220"
+      },
+      "source": [
+        "#check for data cleanliness\n",
+        "data.head()"
+      ],
+      "execution_count": 7,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>funded_amnt_inv</th>\n",
+              "      <th>int_rate</th>\n",
+              "      <th>grade</th>\n",
+              "      <th>emp_title</th>\n",
+              "      <th>emp_length</th>\n",
+              "      <th>home_ownership</th>\n",
+              "      <th>annual_inc</th>\n",
+              "      <th>verification_status</th>\n",
+              "      <th>pymnt_plan</th>\n",
+              "      <th>purpose</th>\n",
+              "      <th>zip_code</th>\n",
+              "      <th>addr_state</th>\n",
+              "      <th>dti</th>\n",
+              "      <th>delinq_2yrs</th>\n",
+              "      <th>inq_last_6mths</th>\n",
+              "      <th>pub_rec</th>\n",
+              "      <th>revol_bal</th>\n",
+              "      <th>revol_util</th>\n",
+              "      <th>total_acc</th>\n",
+              "      <th>initial_list_status</th>\n",
+              "      <th>total_rec_int</th>\n",
+              "      <th>total_rec_late_fee</th>\n",
+              "      <th>recoveries</th>\n",
+              "      <th>collections_12_mths_ex_med</th>\n",
+              "      <th>application_type</th>\n",
+              "      <th>acc_now_delinq</th>\n",
+              "      <th>tot_coll_amt</th>\n",
+              "      <th>tot_cur_bal</th>\n",
+              "      <th>loan_status</th>\n",
+              "      <th>term_int</th>\n",
+              "      <th>sub_grade_int</th>\n",
+              "      <th>last_week_pay_int</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>14350.0</td>\n",
+              "      <td>19.19</td>\n",
+              "      <td>4</td>\n",
+              "      <td>319.0</td>\n",
+              "      <td>9.0</td>\n",
+              "      <td>4</td>\n",
+              "      <td>28700.0</td>\n",
+              "      <td>1</td>\n",
+              "      <td>0</td>\n",
+              "      <td>1</td>\n",
+              "      <td>349xx</td>\n",
+              "      <td>9</td>\n",
+              "      <td>33.88</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>1.0</td>\n",
+              "      <td>1.0</td>\n",
+              "      <td>22515.0</td>\n",
+              "      <td>73.1</td>\n",
+              "      <td>28.0</td>\n",
+              "      <td>0</td>\n",
+              "      <td>1173.84</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>28699.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>36.0</td>\n",
+              "      <td>3.0</td>\n",
+              "      <td>26.0</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>4800.0</td>\n",
+              "      <td>10.99</td>\n",
+              "      <td>1</td>\n",
+              "      <td>76.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>1</td>\n",
+              "      <td>65000.0</td>\n",
+              "      <td>1</td>\n",
+              "      <td>0</td>\n",
+              "      <td>2</td>\n",
+              "      <td>209xx</td>\n",
+              "      <td>20</td>\n",
+              "      <td>3.64</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>1.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>7624.0</td>\n",
+              "      <td>23.2</td>\n",
+              "      <td>13.0</td>\n",
+              "      <td>1</td>\n",
+              "      <td>83.95</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>9974.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>36.0</td>\n",
+              "      <td>4.0</td>\n",
+              "      <td>9.0</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>10000.0</td>\n",
+              "      <td>7.26</td>\n",
+              "      <td>0</td>\n",
+              "      <td>2309.0</td>\n",
+              "      <td>2.0</td>\n",
+              "      <td>4</td>\n",
+              "      <td>45000.0</td>\n",
+              "      <td>0</td>\n",
+              "      <td>0</td>\n",
+              "      <td>1</td>\n",
+              "      <td>447xx</td>\n",
+              "      <td>35</td>\n",
+              "      <td>18.42</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>10877.0</td>\n",
+              "      <td>31.2</td>\n",
+              "      <td>19.0</td>\n",
+              "      <td>1</td>\n",
+              "      <td>56.47</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>65.0</td>\n",
+              "      <td>38295.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>36.0</td>\n",
+              "      <td>4.0</td>\n",
+              "      <td>9.0</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>15000.0</td>\n",
+              "      <td>19.72</td>\n",
+              "      <td>3</td>\n",
+              "      <td>1.0</td>\n",
+              "      <td>10.0</td>\n",
+              "      <td>5</td>\n",
+              "      <td>105000.0</td>\n",
+              "      <td>0</td>\n",
+              "      <td>0</td>\n",
+              "      <td>1</td>\n",
+              "      <td>221xx</td>\n",
+              "      <td>45</td>\n",
+              "      <td>14.97</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>2.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>13712.0</td>\n",
+              "      <td>55.5</td>\n",
+              "      <td>21.0</td>\n",
+              "      <td>0</td>\n",
+              "      <td>4858.62</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>55564.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>36.0</td>\n",
+              "      <td>5.0</td>\n",
+              "      <td>135.0</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>4</th>\n",
+              "      <td>16000.0</td>\n",
+              "      <td>10.64</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1.0</td>\n",
+              "      <td>10.0</td>\n",
+              "      <td>5</td>\n",
+              "      <td>52000.0</td>\n",
+              "      <td>2</td>\n",
+              "      <td>0</td>\n",
+              "      <td>0</td>\n",
+              "      <td>900xx</td>\n",
+              "      <td>4</td>\n",
+              "      <td>20.16</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>35835.0</td>\n",
+              "      <td>76.2</td>\n",
+              "      <td>27.0</td>\n",
+              "      <td>1</td>\n",
+              "      <td>2296.41</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>47159.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>36.0</td>\n",
+              "      <td>2.0</td>\n",
+              "      <td>96.0</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "   funded_amnt_inv  int_rate  grade  ...  term_int  sub_grade_int  last_week_pay_int\n",
+              "0          14350.0     19.19      4  ...      36.0            3.0               26.0\n",
+              "1           4800.0     10.99      1  ...      36.0            4.0                9.0\n",
+              "2          10000.0      7.26      0  ...      36.0            4.0                9.0\n",
+              "3          15000.0     19.72      3  ...      36.0            5.0              135.0\n",
+              "4          16000.0     10.64      1  ...      36.0            2.0               96.0\n",
+              "\n",
+              "[5 rows x 32 columns]"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 7
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "qwITdE4qDzYW",
+        "outputId": "5ef900ed-054d-4d29-ab68-a4593fe7af08"
+      },
+      "source": [
+        "data.isna().sum()"
+      ],
+      "execution_count": 8,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "funded_amnt_inv               0\n",
+              "int_rate                      0\n",
+              "grade                         0\n",
+              "emp_title                     0\n",
+              "emp_length                    0\n",
+              "home_ownership                0\n",
+              "annual_inc                    0\n",
+              "verification_status           0\n",
+              "pymnt_plan                    0\n",
+              "purpose                       0\n",
+              "zip_code                      0\n",
+              "addr_state                    0\n",
+              "dti                           0\n",
+              "delinq_2yrs                   0\n",
+              "inq_last_6mths                0\n",
+              "pub_rec                       0\n",
+              "revol_bal                     0\n",
+              "revol_util                    0\n",
+              "total_acc                     0\n",
+              "initial_list_status           0\n",
+              "total_rec_int                 0\n",
+              "total_rec_late_fee            0\n",
+              "recoveries                    0\n",
+              "collections_12_mths_ex_med    0\n",
+              "application_type              0\n",
+              "acc_now_delinq                0\n",
+              "tot_coll_amt                  0\n",
+              "tot_cur_bal                   0\n",
+              "loan_status                   0\n",
+              "term_int                      0\n",
+              "sub_grade_int                 0\n",
+              "last_week_pay_int             0\n",
+              "dtype: int64"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 8
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "kk6FzbspDz86",
+        "outputId": "4961b76c-841a-4942-a21b-cad8cad44e94"
+      },
+      "source": [
+        "#lets create dependent and independant parameters \n",
+        "\n",
+        "Y= data['loan_status']\n",
+        "X=data.drop(['loan_status', 'zip_code'], axis=1)\n",
+        "print(X.shape, Y.shape)"
+      ],
+      "execution_count": 66,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "(532428, 30) (532428,)\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "DUknUpbDDz_u"
+      },
+      "source": [
+        "### we need to do feature selection before running the models \n",
+        "\n",
+        "from sklearn import linear_model\n",
+        "from sklearn.preprocessing import StandardScaler\n",
+        "from sklearn.feature_selection import SelectFromModel\n",
+        "from sklearn.linear_model import LogisticRegression"
+      ],
+      "execution_count": 12,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "3l-cC-t8D0CX",
+        "outputId": "3e2710a3-03f5-4c70-cdc6-449b5f46c908"
+      },
+      "source": [
+        "#scale the features before putting it into lasso feature selction \n",
+        "scaler = StandardScaler()\n",
+        "scaler.fit(X,Y)"
+      ],
+      "execution_count": 13,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "StandardScaler(copy=True, with_mean=True, with_std=True)"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 13
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "zZjLK1gTD0E_",
+        "outputId": "012fd289-6281-4cbb-99ea-7e0efd7c5935"
+      },
+      "source": [
+        "X1= scaler.transform(X)\n",
+        "X.shape"
+      ],
+      "execution_count": 20,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "(532428, 30)"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 20
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 216
+        },
+        "id": "5irxMXMgFgTB",
+        "outputId": "c6702190-819f-46eb-ceee-1eacb28750ff"
+      },
+      "source": [
+        "X1= pd.DataFrame(X1)\n",
+        "X1.head()"
+      ],
+      "execution_count": 21,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>0</th>\n",
+              "      <th>1</th>\n",
+              "      <th>2</th>\n",
+              "      <th>3</th>\n",
+              "      <th>4</th>\n",
+              "      <th>5</th>\n",
+              "      <th>6</th>\n",
+              "      <th>7</th>\n",
+              "      <th>8</th>\n",
+              "      <th>9</th>\n",
+              "      <th>10</th>\n",
+              "      <th>11</th>\n",
+              "      <th>12</th>\n",
+              "      <th>13</th>\n",
+              "      <th>14</th>\n",
+              "      <th>15</th>\n",
+              "      <th>16</th>\n",
+              "      <th>17</th>\n",
+              "      <th>18</th>\n",
+              "      <th>19</th>\n",
+              "      <th>20</th>\n",
+              "      <th>21</th>\n",
+              "      <th>22</th>\n",
+              "      <th>23</th>\n",
+              "      <th>24</th>\n",
+              "      <th>25</th>\n",
+              "      <th>26</th>\n",
+              "      <th>27</th>\n",
+              "      <th>28</th>\n",
+              "      <th>29</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>-0.042047</td>\n",
+              "      <td>1.357892</td>\n",
+              "      <td>1.678774</td>\n",
+              "      <td>-0.154784</td>\n",
+              "      <td>0.815511</td>\n",
+              "      <td>0.571140</td>\n",
+              "      <td>-0.710585</td>\n",
+              "      <td>-0.034906</td>\n",
+              "      <td>-0.003876</td>\n",
+              "      <td>-0.210536</td>\n",
+              "      <td>-0.932853</td>\n",
+              "      <td>1.880883</td>\n",
+              "      <td>-0.365624</td>\n",
+              "      <td>0.306313</td>\n",
+              "      <td>1.379109</td>\n",
+              "      <td>0.249461</td>\n",
+              "      <td>0.756608</td>\n",
+              "      <td>0.230739</td>\n",
+              "      <td>-0.971103</td>\n",
+              "      <td>-0.276892</td>\n",
+              "      <td>-0.096529</td>\n",
+              "      <td>-0.111603</td>\n",
+              "      <td>-0.107519</td>\n",
+              "      <td>-0.023941</td>\n",
+              "      <td>-0.063387</td>\n",
+              "      <td>-0.113614</td>\n",
+              "      <td>-0.750447</td>\n",
+              "      <td>-0.65438</td>\n",
+              "      <td>0.021901</td>\n",
+              "      <td>-0.693461</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>-1.173391</td>\n",
+              "      <td>-0.514423</td>\n",
+              "      <td>-0.607492</td>\n",
+              "      <td>-0.313174</td>\n",
+              "      <td>-1.640007</td>\n",
+              "      <td>-0.990027</td>\n",
+              "      <td>-0.153833</td>\n",
+              "      <td>-0.034906</td>\n",
+              "      <td>-0.003876</td>\n",
+              "      <td>0.317881</td>\n",
+              "      <td>-0.206855</td>\n",
+              "      <td>-1.732423</td>\n",
+              "      <td>-0.365624</td>\n",
+              "      <td>0.306313</td>\n",
+              "      <td>-0.333769</td>\n",
+              "      <td>-0.414628</td>\n",
+              "      <td>-1.335900</td>\n",
+              "      <td>-1.035830</td>\n",
+              "      <td>1.029757</td>\n",
+              "      <td>-0.797573</td>\n",
+              "      <td>-0.096529</td>\n",
+              "      <td>-0.111603</td>\n",
+              "      <td>-0.107519</td>\n",
+              "      <td>-0.023941</td>\n",
+              "      <td>-0.063387</td>\n",
+              "      <td>-0.113614</td>\n",
+              "      <td>-0.877208</td>\n",
+              "      <td>-0.65438</td>\n",
+              "      <td>0.729327</td>\n",
+              "      <td>-1.074467</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>-0.557371</td>\n",
+              "      <td>-1.366097</td>\n",
+              "      <td>-1.369581</td>\n",
+              "      <td>1.142313</td>\n",
+              "      <td>-1.094337</td>\n",
+              "      <td>0.571140</td>\n",
+              "      <td>-0.460583</td>\n",
+              "      <td>-1.296970</td>\n",
+              "      <td>-0.003876</td>\n",
+              "      <td>-0.210536</td>\n",
+              "      <td>0.783143</td>\n",
+              "      <td>0.033604</td>\n",
+              "      <td>-0.365624</td>\n",
+              "      <td>-0.696686</td>\n",
+              "      <td>-0.333769</td>\n",
+              "      <td>-0.269555</td>\n",
+              "      <td>-1.000428</td>\n",
+              "      <td>-0.529203</td>\n",
+              "      <td>1.029757</td>\n",
+              "      <td>-0.810702</td>\n",
+              "      <td>-0.096529</td>\n",
+              "      <td>-0.111603</td>\n",
+              "      <td>-0.107519</td>\n",
+              "      <td>-0.023941</td>\n",
+              "      <td>-0.063387</td>\n",
+              "      <td>-0.079034</td>\n",
+              "      <td>-0.685486</td>\n",
+              "      <td>-0.65438</td>\n",
+              "      <td>0.729327</td>\n",
+              "      <td>-1.074467</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>0.034956</td>\n",
+              "      <td>1.478907</td>\n",
+              "      <td>0.916686</td>\n",
+              "      <td>-0.362059</td>\n",
+              "      <td>1.088346</td>\n",
+              "      <td>1.091529</td>\n",
+              "      <td>0.459668</td>\n",
+              "      <td>-1.296970</td>\n",
+              "      <td>-0.003876</td>\n",
+              "      <td>-0.210536</td>\n",
+              "      <td>1.443142</td>\n",
+              "      <td>-0.378628</td>\n",
+              "      <td>-0.365624</td>\n",
+              "      <td>1.309312</td>\n",
+              "      <td>-0.333769</td>\n",
+              "      <td>-0.143123</td>\n",
+              "      <td>0.018569</td>\n",
+              "      <td>-0.360327</td>\n",
+              "      <td>-0.971103</td>\n",
+              "      <td>1.483468</td>\n",
+              "      <td>-0.096529</td>\n",
+              "      <td>-0.111603</td>\n",
+              "      <td>-0.107519</td>\n",
+              "      <td>-0.023941</td>\n",
+              "      <td>-0.063387</td>\n",
+              "      <td>-0.113614</td>\n",
+              "      <td>-0.568581</td>\n",
+              "      <td>-0.65438</td>\n",
+              "      <td>1.436753</td>\n",
+              "      <td>1.749461</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>4</th>\n",
+              "      <td>0.153421</td>\n",
+              "      <td>-0.594338</td>\n",
+              "      <td>-0.607492</td>\n",
+              "      <td>-0.362059</td>\n",
+              "      <td>1.088346</td>\n",
+              "      <td>1.091529</td>\n",
+              "      <td>-0.353221</td>\n",
+              "      <td>1.227157</td>\n",
+              "      <td>-0.003876</td>\n",
+              "      <td>-0.738952</td>\n",
+              "      <td>-1.262852</td>\n",
+              "      <td>0.241512</td>\n",
+              "      <td>-0.365624</td>\n",
+              "      <td>-0.696686</td>\n",
+              "      <td>-0.333769</td>\n",
+              "      <td>0.843489</td>\n",
+              "      <td>0.886603</td>\n",
+              "      <td>0.146301</td>\n",
+              "      <td>1.029757</td>\n",
+              "      <td>0.259403</td>\n",
+              "      <td>-0.096529</td>\n",
+              "      <td>-0.111603</td>\n",
+              "      <td>-0.107519</td>\n",
+              "      <td>-0.023941</td>\n",
+              "      <td>-0.063387</td>\n",
+              "      <td>-0.113614</td>\n",
+              "      <td>-0.625480</td>\n",
+              "      <td>-0.65438</td>\n",
+              "      <td>-0.685526</td>\n",
+              "      <td>0.875388</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "         0         1         2   ...       27        28        29\n",
+              "0 -0.042047  1.357892  1.678774  ... -0.65438  0.021901 -0.693461\n",
+              "1 -1.173391 -0.514423 -0.607492  ... -0.65438  0.729327 -1.074467\n",
+              "2 -0.557371 -1.366097 -1.369581  ... -0.65438  0.729327 -1.074467\n",
+              "3  0.034956  1.478907  0.916686  ... -0.65438  1.436753  1.749461\n",
+              "4  0.153421 -0.594338 -0.607492  ... -0.65438 -0.685526  0.875388\n",
+              "\n",
+              "[5 rows x 30 columns]"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 21
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "s2duGOqqEEwK",
+        "outputId": "e809f4ca-ac54-4d06-b0fc-fa32f7f8c013"
+      },
+      "source": [
+        "sel_ = SelectFromModel(LogisticRegression(C=1, penalty='l1',solver='liblinear'))\n",
+        "sel_.fit(X1, Y)"
+      ],
+      "execution_count": 22,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "/usr/local/lib/python3.7/dist-packages/sklearn/svm/_base.py:947: ConvergenceWarning: Liblinear failed to converge, increase the number of iterations.\n",
+            "  \"the number of iterations.\", ConvergenceWarning)\n"
+          ],
+          "name": "stderr"
+        },
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "SelectFromModel(estimator=LogisticRegression(C=1, class_weight=None, dual=False,\n",
+              "                                             fit_intercept=True,\n",
+              "                                             intercept_scaling=1, l1_ratio=None,\n",
+              "                                             max_iter=100, multi_class='auto',\n",
+              "                                             n_jobs=None, penalty='l1',\n",
+              "                                             random_state=None,\n",
+              "                                             solver='liblinear', tol=0.0001,\n",
+              "                                             verbose=0, warm_start=False),\n",
+              "                max_features=None, norm_order=1, prefit=False, threshold=None)"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 22
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "FURbFCp4GX9n",
+        "outputId": "d0968be9-4371-4e47-db0e-a356a7379f94"
+      },
+      "source": [
+        "sel_.get_support()"
+      ],
+      "execution_count": 24,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "array([ True,  True,  True,  True,  True,  True,  True,  True,  True,\n",
+              "        True,  True,  True,  True,  True,  True,  True,  True,  True,\n",
+              "        True,  True,  True,  True,  True,  True,  True,  True,  True,\n",
+              "        True,  True,  True])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 24
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "saah1TP4EEyd",
+        "outputId": "d6cf6ccb-97ff-4d60-9d92-d1e6654231d4"
+      },
+      "source": [
+        "selected_feat = X.columns[(sel_.get_support())]\n",
+        "print('total features: {}'.format((X.shape[1])))\n",
+        "print('selected features: {}'.format(len(selected_feat)))\n",
+        "print('features with coefficients shrank to zero: {}'.format(\n",
+        "      np.sum(sel_.estimator_.coef_ == 0)))"
+      ],
+      "execution_count": 23,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "total features: 30\n",
+            "selected features: 30\n",
+            "features with coefficients shrank to zero: 0\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "V4CBJHL0EFCH"
+      },
+      "source": [
+        "## to be more certain, lets do it feature selection with Random Forste as well\n",
+        "\n",
+        "from sklearn.ensemble import RandomForestClassifier\n",
+        "from sklearn.feature_selection import SelectFromModel"
+      ],
+      "execution_count": 26,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "8RnXRrPAEFEu"
+      },
+      "source": [
+        "sel = SelectFromModel(RandomForestClassifier(n_estimators = 100))"
+      ],
+      "execution_count": 27,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "oxzQXRqbHKZe",
+        "outputId": "992ba0df-fda1-43f6-8c9c-43ca8a493eed"
+      },
+      "source": [
+        "sel.fit(X1,Y)"
+      ],
+      "execution_count": 28,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "SelectFromModel(estimator=RandomForestClassifier(bootstrap=True, ccp_alpha=0.0,\n",
+              "                                                 class_weight=None,\n",
+              "                                                 criterion='gini',\n",
+              "                                                 max_depth=None,\n",
+              "                                                 max_features='auto',\n",
+              "                                                 max_leaf_nodes=None,\n",
+              "                                                 max_samples=None,\n",
+              "                                                 min_impurity_decrease=0.0,\n",
+              "                                                 min_impurity_split=None,\n",
+              "                                                 min_samples_leaf=1,\n",
+              "                                                 min_samples_split=2,\n",
+              "                                                 min_weight_fraction_leaf=0.0,\n",
+              "                                                 n_estimators=100, n_jobs=None,\n",
+              "                                                 oob_score=False,\n",
+              "                                                 random_state=None, verbose=0,\n",
+              "                                                 warm_start=False),\n",
+              "                max_features=None, norm_order=1, prefit=False, threshold=None)"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 28
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "rsW_SkOWH9Uq"
+      },
+      "source": [
+        "selected_feat= X.columns[(sel.get_support())]"
+      ],
+      "execution_count": 30,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "GfRCj37HH9br",
+        "outputId": "d82ebbe1-fe03-4b74-dd8f-5fa4f85b0ed9"
+      },
+      "source": [
+        "print(selected_feat)"
+      ],
+      "execution_count": 31,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "Index(['funded_amnt_inv', 'int_rate', 'emp_title', 'annual_inc', 'addr_state',\n",
+            "       'dti', 'revol_bal', 'revol_util', 'total_acc', 'total_rec_int',\n",
+            "       'tot_coll_amt', 'tot_cur_bal', 'last_week_pay_int'],\n",
+            "      dtype='object')\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "GFNKQPEjH9eU",
+        "outputId": "b5aaa989-e486-4fd3-989c-0788a843b17f"
+      },
+      "source": [
+        "len(selected_feat)"
+      ],
+      "execution_count": 32,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "13"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 32
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "iJUn_a6TH9iB",
+        "outputId": "aedd3817-312c-453c-d239-9bfc40afaeee"
+      },
+      "source": [
+        "##try fiting the data without scalling\n",
+        "sel.fit(X,Y)"
+      ],
+      "execution_count": 33,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "SelectFromModel(estimator=RandomForestClassifier(bootstrap=True, ccp_alpha=0.0,\n",
+              "                                                 class_weight=None,\n",
+              "                                                 criterion='gini',\n",
+              "                                                 max_depth=None,\n",
+              "                                                 max_features='auto',\n",
+              "                                                 max_leaf_nodes=None,\n",
+              "                                                 max_samples=None,\n",
+              "                                                 min_impurity_decrease=0.0,\n",
+              "                                                 min_impurity_split=None,\n",
+              "                                                 min_samples_leaf=1,\n",
+              "                                                 min_samples_split=2,\n",
+              "                                                 min_weight_fraction_leaf=0.0,\n",
+              "                                                 n_estimators=100, n_jobs=None,\n",
+              "                                                 oob_score=False,\n",
+              "                                                 random_state=None, verbose=0,\n",
+              "                                                 warm_start=False),\n",
+              "                max_features=None, norm_order=1, prefit=False, threshold=None)"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 33
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "Bxf1at-mJUgv"
+      },
+      "source": [
+        "selected_feat_noscal= X.columns[(sel.get_support())]"
+      ],
+      "execution_count": 34,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "dG7zr0YAJUi_",
+        "outputId": "f630b28c-ed3f-441e-a3ca-320d82a7dff0"
+      },
+      "source": [
+        "print(selected_feat, len(selected_feat_noscal))"
+      ],
+      "execution_count": 35,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "Index(['funded_amnt_inv', 'int_rate', 'emp_title', 'annual_inc', 'addr_state',\n",
+            "       'dti', 'revol_bal', 'revol_util', 'total_acc', 'total_rec_int',\n",
+            "       'tot_coll_amt', 'tot_cur_bal', 'last_week_pay_int'],\n",
+            "      dtype='object') 13\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "aBuhz4srJe0R"
+      },
+      "source": [
+        "#lets run two different models with 30 features and 13 features "
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "H7yvoYT8Je9k"
+      },
+      "source": [
+        "X_13 = data[selected_feat_noscal]"
+      ],
+      "execution_count": 63,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "6arYIUiYJt4E",
+        "outputId": "893d0cf9-4e16-4d55-b703-9d27a8fa22ab"
+      },
+      "source": [
+        "X_13.shape"
+      ],
+      "execution_count": 37,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "(532428, 13)"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 37
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "pzlEx4T6JwTq"
+      },
+      "source": [
+        "#lets try with random Forest "
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "sHMDqc-LK1o7"
+      },
+      "source": [
+        "from sklearn.model_selection import GridSearchCV\n",
+        "from sklearn.datasets import make_classification"
+      ],
+      "execution_count": 39,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "d1hSE9f6LXq1"
+      },
+      "source": [
+        "X_13, Y = make_classification(n_samples=1000,\n",
+        "                           n_features=10,\n",
+        "                           n_informative=3,\n",
+        "                           n_redundant=0,\n",
+        "                           n_repeated=0,\n",
+        "                           n_classes=2,\n",
+        "                           random_state=0,\n",
+        "                           shuffle=False)"
+      ],
+      "execution_count": 43,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "w931rzH2Lbef"
+      },
+      "source": [
+        "rfc = RandomForestClassifier(n_jobs=-1) \n"
+      ],
+      "execution_count": 48,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "1VE0xm_dLe4_"
+      },
+      "source": [
+        "param_grid = { \"n_estimators\"      : [250, 500,700],\n",
+        "           \"criterion\"         : [\"gini\", \"entropy\"],\n",
+        "           \"max_features\"      : [8,10],\n",
+        "           \"max_depth\"         : [20, 30, 50],\n",
+        "           \"min_samples_split\" : [2, 4] ,\n",
+        "           \"bootstrap\": [True, False]}"
+      ],
+      "execution_count": 50,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 336
+        },
+        "id": "l803ddQbLoue",
+        "outputId": "06a5042a-e80f-4497-d0c3-622a21e85c1c"
+      },
+      "source": [
+        "CV_rfc = GridSearchCV(estimator=rfc, param_grid=param_grid, cv= 5)\n",
+        "CV_rfc.fit(X_13, Y)\n",
+        "print(CV_rfc.best_params_)"
+      ],
+      "execution_count": 51,
+      "outputs": [
+        {
+          "output_type": "error",
+          "ename": "KeyboardInterrupt",
+          "evalue": "ignored",
+          "traceback": [
+            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+            "\u001b[0;31mKeyboardInterrupt\u001b[0m                         Traceback (most recent call last)",
+            "\u001b[0;32m<ipython-input-51-5eb3fe14d943>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m()\u001b[0m\n\u001b[1;32m      1\u001b[0m \u001b[0mCV_rfc\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mGridSearchCV\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mestimator\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mrfc\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mparam_grid\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mparam_grid\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mcv\u001b[0m\u001b[0;34m=\u001b[0m \u001b[0;36m5\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 2\u001b[0;31m \u001b[0mCV_rfc\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mfit\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mX_13\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mY\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      3\u001b[0m \u001b[0mprint\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mCV_rfc\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mbest_params_\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;32m/usr/local/lib/python3.7/dist-packages/sklearn/model_selection/_search.py\u001b[0m in \u001b[0;36mfit\u001b[0;34m(self, X, y, groups, **fit_params)\u001b[0m\n\u001b[1;32m    708\u001b[0m                 \u001b[0;32mreturn\u001b[0m \u001b[0mresults\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    709\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 710\u001b[0;31m             \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_run_search\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mevaluate_candidates\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    711\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    712\u001b[0m         \u001b[0;31m# For multi-metric evaluation, store the best_index_, best_params_ and\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;32m/usr/local/lib/python3.7/dist-packages/sklearn/model_selection/_search.py\u001b[0m in \u001b[0;36m_run_search\u001b[0;34m(self, evaluate_candidates)\u001b[0m\n\u001b[1;32m   1149\u001b[0m     \u001b[0;32mdef\u001b[0m \u001b[0m_run_search\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mself\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mevaluate_candidates\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   1150\u001b[0m         \u001b[0;34m\"\"\"Search all candidates in param_grid\"\"\"\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m-> 1151\u001b[0;31m         \u001b[0mevaluate_candidates\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mParameterGrid\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mparam_grid\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m   1152\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   1153\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;32m/usr/local/lib/python3.7/dist-packages/sklearn/model_selection/_search.py\u001b[0m in \u001b[0;36mevaluate_candidates\u001b[0;34m(candidate_params)\u001b[0m\n\u001b[1;32m    687\u001b[0m                                \u001b[0;32mfor\u001b[0m \u001b[0mparameters\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m(\u001b[0m\u001b[0mtrain\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mtest\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    688\u001b[0m                                in product(candidate_params,\n\u001b[0;32m--> 689\u001b[0;31m                                           cv.split(X, y, groups)))\n\u001b[0m\u001b[1;32m    690\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    691\u001b[0m                 \u001b[0;32mif\u001b[0m \u001b[0mlen\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mout\u001b[0m\u001b[0;34m)\u001b[0m \u001b[0;34m<\u001b[0m \u001b[0;36m1\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;32m/usr/local/lib/python3.7/dist-packages/joblib/parallel.py\u001b[0m in \u001b[0;36m__call__\u001b[0;34m(self, iterable)\u001b[0m\n\u001b[1;32m   1042\u001b[0m                 \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_iterating\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_original_iterator\u001b[0m \u001b[0;32mis\u001b[0m \u001b[0;32mnot\u001b[0m \u001b[0;32mNone\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   1043\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m-> 1044\u001b[0;31m             \u001b[0;32mwhile\u001b[0m \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mdispatch_one_batch\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0miterator\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m   1045\u001b[0m                 \u001b[0;32mpass\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   1046\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;32m/usr/local/lib/python3.7/dist-packages/joblib/parallel.py\u001b[0m in \u001b[0;36mdispatch_one_batch\u001b[0;34m(self, iterator)\u001b[0m\n\u001b[1;32m    857\u001b[0m                 \u001b[0;32mreturn\u001b[0m \u001b[0;32mFalse\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    858\u001b[0m             \u001b[0;32melse\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 859\u001b[0;31m                 \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_dispatch\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mtasks\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    860\u001b[0m                 \u001b[0;32mreturn\u001b[0m \u001b[0;32mTrue\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    861\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;32m/usr/local/lib/python3.7/dist-packages/joblib/parallel.py\u001b[0m in \u001b[0;36m_dispatch\u001b[0;34m(self, batch)\u001b[0m\n\u001b[1;32m    775\u001b[0m         \u001b[0;32mwith\u001b[0m \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_lock\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    776\u001b[0m             \u001b[0mjob_idx\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mlen\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_jobs\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 777\u001b[0;31m             \u001b[0mjob\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_backend\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mapply_async\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mbatch\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mcallback\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mcb\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    778\u001b[0m             \u001b[0;31m# A job can complete so quickly than its callback is\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    779\u001b[0m             \u001b[0;31m# called before we get here, causing self._jobs to\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;32m/usr/local/lib/python3.7/dist-packages/joblib/_parallel_backends.py\u001b[0m in \u001b[0;36mapply_async\u001b[0;34m(self, func, callback)\u001b[0m\n\u001b[1;32m    206\u001b[0m     \u001b[0;32mdef\u001b[0m \u001b[0mapply_async\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mself\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mfunc\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mcallback\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;32mNone\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    207\u001b[0m         \u001b[0;34m\"\"\"Schedule a func to be run\"\"\"\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 208\u001b[0;31m         \u001b[0mresult\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mImmediateResult\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mfunc\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    209\u001b[0m         \u001b[0;32mif\u001b[0m \u001b[0mcallback\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    210\u001b[0m             \u001b[0mcallback\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mresult\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;32m/usr/local/lib/python3.7/dist-packages/joblib/_parallel_backends.py\u001b[0m in \u001b[0;36m__init__\u001b[0;34m(self, batch)\u001b[0m\n\u001b[1;32m    570\u001b[0m         \u001b[0;31m# Don't delay the application, to avoid keeping the input\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    571\u001b[0m         \u001b[0;31m# arguments in memory\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 572\u001b[0;31m         \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mresults\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mbatch\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    573\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    574\u001b[0m     \u001b[0;32mdef\u001b[0m \u001b[0mget\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mself\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;32m/usr/local/lib/python3.7/dist-packages/joblib/parallel.py\u001b[0m in \u001b[0;36m__call__\u001b[0;34m(self)\u001b[0m\n\u001b[1;32m    261\u001b[0m         \u001b[0;32mwith\u001b[0m \u001b[0mparallel_backend\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_backend\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mn_jobs\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_n_jobs\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    262\u001b[0m             return [func(*args, **kwargs)\n\u001b[0;32m--> 263\u001b[0;31m                     for func, args, kwargs in self.items]\n\u001b[0m\u001b[1;32m    264\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    265\u001b[0m     \u001b[0;32mdef\u001b[0m \u001b[0m__reduce__\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mself\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;32m/usr/local/lib/python3.7/dist-packages/joblib/parallel.py\u001b[0m in \u001b[0;36m<listcomp>\u001b[0;34m(.0)\u001b[0m\n\u001b[1;32m    261\u001b[0m         \u001b[0;32mwith\u001b[0m \u001b[0mparallel_backend\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_backend\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mn_jobs\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_n_jobs\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    262\u001b[0m             return [func(*args, **kwargs)\n\u001b[0;32m--> 263\u001b[0;31m                     for func, args, kwargs in self.items]\n\u001b[0m\u001b[1;32m    264\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    265\u001b[0m     \u001b[0;32mdef\u001b[0m \u001b[0m__reduce__\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mself\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;32m/usr/local/lib/python3.7/dist-packages/sklearn/model_selection/_validation.py\u001b[0m in \u001b[0;36m_fit_and_score\u001b[0;34m(estimator, X, y, scorer, train, test, verbose, parameters, fit_params, return_train_score, return_parameters, return_n_test_samples, return_times, return_estimator, error_score)\u001b[0m\n\u001b[1;32m    513\u001b[0m             \u001b[0mestimator\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mfit\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mX_train\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m**\u001b[0m\u001b[0mfit_params\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    514\u001b[0m         \u001b[0;32melse\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 515\u001b[0;31m             \u001b[0mestimator\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mfit\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mX_train\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0my_train\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m**\u001b[0m\u001b[0mfit_params\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    516\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    517\u001b[0m     \u001b[0;32mexcept\u001b[0m \u001b[0mException\u001b[0m \u001b[0;32mas\u001b[0m \u001b[0me\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;32m/usr/local/lib/python3.7/dist-packages/sklearn/ensemble/_forest.py\u001b[0m in \u001b[0;36mfit\u001b[0;34m(self, X, y, sample_weight)\u001b[0m\n\u001b[1;32m    381\u001b[0m                     \u001b[0mverbose\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mverbose\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mclass_weight\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mclass_weight\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    382\u001b[0m                     n_samples_bootstrap=n_samples_bootstrap)\n\u001b[0;32m--> 383\u001b[0;31m                 for i, t in enumerate(trees))\n\u001b[0m\u001b[1;32m    384\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    385\u001b[0m             \u001b[0;31m# Collect newly grown trees\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;32m/usr/local/lib/python3.7/dist-packages/joblib/parallel.py\u001b[0m in \u001b[0;36m__call__\u001b[0;34m(self, iterable)\u001b[0m\n\u001b[1;32m   1052\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   1053\u001b[0m             \u001b[0;32mwith\u001b[0m \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_backend\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mretrieval_context\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m-> 1054\u001b[0;31m                 \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mretrieve\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m   1055\u001b[0m             \u001b[0;31m# Make sure that we get a last message telling us we are done\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   1056\u001b[0m             \u001b[0melapsed_time\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mtime\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mtime\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m \u001b[0;34m-\u001b[0m \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_start_time\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;32m/usr/local/lib/python3.7/dist-packages/joblib/parallel.py\u001b[0m in \u001b[0;36mretrieve\u001b[0;34m(self)\u001b[0m\n\u001b[1;32m    931\u001b[0m             \u001b[0;32mtry\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    932\u001b[0m                 \u001b[0;32mif\u001b[0m \u001b[0mgetattr\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_backend\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m'supports_timeout'\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;32mFalse\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 933\u001b[0;31m                     \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_output\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mextend\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mjob\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mget\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mtimeout\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mtimeout\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    934\u001b[0m                 \u001b[0;32melse\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    935\u001b[0m                     \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_output\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mextend\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mjob\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mget\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;32m/usr/local/lib/python3.7/dist-packages/joblib/_parallel_backends.py\u001b[0m in \u001b[0;36mwrap_future_result\u001b[0;34m(future, timeout)\u001b[0m\n\u001b[1;32m    540\u001b[0m         AsyncResults.get from multiprocessing.\"\"\"\n\u001b[1;32m    541\u001b[0m         \u001b[0;32mtry\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 542\u001b[0;31m             \u001b[0;32mreturn\u001b[0m \u001b[0mfuture\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mresult\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mtimeout\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mtimeout\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    543\u001b[0m         \u001b[0;32mexcept\u001b[0m \u001b[0mCfTimeoutError\u001b[0m \u001b[0;32mas\u001b[0m \u001b[0me\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    544\u001b[0m             \u001b[0;32mraise\u001b[0m \u001b[0mTimeoutError\u001b[0m \u001b[0;32mfrom\u001b[0m \u001b[0me\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;32m/usr/lib/python3.7/concurrent/futures/_base.py\u001b[0m in \u001b[0;36mresult\u001b[0;34m(self, timeout)\u001b[0m\n\u001b[1;32m    428\u001b[0m                 \u001b[0;32mreturn\u001b[0m \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m__get_result\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    429\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 430\u001b[0;31m             \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_condition\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mwait\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mtimeout\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    431\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    432\u001b[0m             \u001b[0;32mif\u001b[0m \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_state\u001b[0m \u001b[0;32min\u001b[0m \u001b[0;34m[\u001b[0m\u001b[0mCANCELLED\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mCANCELLED_AND_NOTIFIED\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;32m/usr/lib/python3.7/threading.py\u001b[0m in \u001b[0;36mwait\u001b[0;34m(self, timeout)\u001b[0m\n\u001b[1;32m    294\u001b[0m         \u001b[0;32mtry\u001b[0m\u001b[0;34m:\u001b[0m    \u001b[0;31m# restore state no matter what (e.g., KeyboardInterrupt)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    295\u001b[0m             \u001b[0;32mif\u001b[0m \u001b[0mtimeout\u001b[0m \u001b[0;32mis\u001b[0m \u001b[0;32mNone\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 296\u001b[0;31m                 \u001b[0mwaiter\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0macquire\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    297\u001b[0m                 \u001b[0mgotit\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0;32mTrue\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    298\u001b[0m             \u001b[0;32melse\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;31mKeyboardInterrupt\u001b[0m: "
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "gUdlHzyyUGc5"
+      },
+      "source": [
+        "rfc_new = RandomForestClassifier(n_jobs=-1, criterion='gini',max_depth=10, max_features='sqrt',n_estimators=700) "
+      ],
+      "execution_count": 64,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "DNxCDVuGU0LW",
+        "outputId": "a892ff74-d2e8-4366-b142-0a67cff4360b"
+      },
+      "source": [
+        "rfc_new.fit(X_13,Y)"
+      ],
+      "execution_count": 67,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "RandomForestClassifier(bootstrap=True, ccp_alpha=0.0, class_weight=None,\n",
+              "                       criterion='gini', max_depth=10, max_features='sqrt',\n",
+              "                       max_leaf_nodes=None, max_samples=None,\n",
+              "                       min_impurity_decrease=0.0, min_impurity_split=None,\n",
+              "                       min_samples_leaf=1, min_samples_split=2,\n",
+              "                       min_weight_fraction_leaf=0.0, n_estimators=700,\n",
+              "                       n_jobs=-1, oob_score=False, random_state=None, verbose=0,\n",
+              "                       warm_start=False)"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 67
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "Khj6Vrg0VNgA"
+      },
+      "source": [
+        "Ypred= rfc_new.predict_proba(X_13)"
+      ],
+      "execution_count": 68,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "ENOEKZovVYIV",
+        "outputId": "bfc96ee8-24ac-4e50-dc9e-b32fd2d8772a"
+      },
+      "source": [
+        "Ypred"
+      ],
+      "execution_count": 56,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "array([[0.88432979, 0.11567021],\n",
+              "       [0.77863141, 0.22136859],\n",
+              "       [0.88280224, 0.11719776],\n",
+              "       ...,\n",
+              "       [0.14312704, 0.85687296],\n",
+              "       [0.04268745, 0.95731255],\n",
+              "       [0.06703307, 0.93296693]])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 56
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "yhcwgnqBWlaH"
+      },
+      "source": [
+        "Ypred1= rfc_new.predict(X_13)"
+      ],
+      "execution_count": 69,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "irw9OrEPZwP9"
+      },
+      "source": [
+        "import pickle"
+      ],
+      "execution_count": 70,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "1meGy28yZypP"
+      },
+      "source": [
+        "filename = 'RFC_Model.pckl' \n",
+        "pickle.dump(rfc_new, open(filename, 'wb'))"
+      ],
+      "execution_count": 72,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "pV2cSipxWJ3L"
+      },
+      "source": [
+        "from sklearn import metrics"
+      ],
+      "execution_count": 73,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 296
+        },
+        "id": "ss7mRV3tWQT7",
+        "outputId": "29a20019-a965-4e2f-8214-bfcc976f415d"
+      },
+      "source": [
+        "metrics.plot_roc_curve(rfc_new, X_13, Y)  "
+      ],
+      "execution_count": 74,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "<sklearn.metrics._plot.roc_curve.RocCurveDisplay at 0x7f0be5532c50>"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 74
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "image/png": "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1NehGOMXgoODiYmJITAw0O3X+E0iqKkSWB+Bd2VnZxMeHk5cXJxdumuMh6kqeXl5ZGdn07NnT7df5z9NQ86f9lnkXaWlpXTq1MmSgDFeICJ06tTppGvg/pMIrI/AZywJGOM9p/L/5keJwO4sNsaY+vhPInD+tJkq/U9AQAApKSkkJSUxfvx4Dh8+fEb2O2PGDO64444zsq+4uDiSk5NJSUkhJSWFJUuWnJH91pWens78+fOPWffpp5+SmppKv379GDRoEL/5zW8AePTRR3nmmWfO2LHPPffc2uf3338//fv35/777+eVV17hzTffPG0D63cAABMvSURBVK19r1mzhltuueWYdVdccQXDhw8/Zt3kyZN59913j1kXFhZW+3zz5s2MGzeOhIQEBg8ezHXXXce+fftOK7ZDhw4xduxYEhISGDt2LPn5+fWWe+CBB+jfvz+JiYncddddtV9e09LSSE5OJj4+/pj19913H998881pxVbDbxJBtd1Q5rdCQkJIT08nIyODjh078tJLL/k6pHp9++23pKenk56efsyHZkMqKytP6hh1E0FGRgZ33HEH//73v8nMzGTVqlXEx8ef1D7d5Zrcpk+fzrp163j66af59a9/zc9//nO391PfOT/xxBPcddddtcuHDx8mLS2NgoICsrKy3NpvaWkpP/nJT5g6dSpbtmxh9erV3HbbbRw4cMDt2Orz5JNPMmbMGLZs2cKYMWN48sknjyuzZMkSFi9ezLp168jIyGDlypUsWLAAgKlTp/Lqq6+yZcsWtmzZwmeffQbAnXfeWe++ToXfXDWk1kngc3/8eAOZewrP6D77ndWOR8b3d7v8iBEjWLduHQArVqzg7rvvprS0lJCQEN544w369OnDjBkzmDdvHiUlJWzbto0rr7ySp556CoA33niDP//5z7Rv356BAwfSpk0bAHbs2MEvfvELDh48SOfOnXnjjTeIjY1l8uTJhISEsGbNGvbv38/rr7/Om2++ydKlSxk2bBgzZsw4YawN7TM4OJg1a9YwcuRIbr/9dm6//XYOHDhAaGgor776Kn379uWdd97hj3/8IwEBAURERPDVV1/xhz/8gaNHj/L999/z0EMP8cknn/Dwww/Tt29fwFF7mjp16nGxvPrqq0yfPp3y8nLi4+N56623CA0NPe4YCxcuZMOGDdx8882Ul5dTXV3Ne++9R0JCAmFhYRQXFzNhwgSKi4sZMmQIDz30EBs3biQsLIz77ruPbdu21Xsudc/5ueeeq42tqKiIdevWMXDgwNp177//PuPHjycqKoo5c+bw29/+ttG/jf/85z+MGDGC8ePH164bNWpUo69rzEcffcR3330HwE033cSoUaP4y1/+ckwZEaG0tJTy8nJUlYqKCqKiosjNzaWwsLC2ZvPzn/+cDz/8kEsvvZQePXqQl5fH3r176dq162nF6Dc1ghrWReC/qqqq+Prrr5kwYQIAffv2ZdGiRaxZs4Zp06Yd82GRnp7O3LlzWb9+PXPnzmX37t3k5ubyyCOPsHjxYr7//nsyMzNry995553cdNNNrFu3jp/+9KfHfDvNz89n6dKlPP/880yYMIF77rmHDRs2sH79etLT02vLjR49mpSUFIYNG9boPrOzs1myZAnPPfccU6ZM4cUXXyQtLY1nnnmG2267DYBp06bx+eefs3btWubNm0dQUBDTpk1j4sSJpKenM3HiRDIyMhgyZEij791VV13FypUrWbt2LYmJibz22mv1HgPglVde4e677yY9PZ1Vq1YRExNzzL7mzZtXW0ubOHHiMdtOdC51z9nVqlWrSEpKOmbd7NmzmTRpEpMmTWL27NmNnh/g9ntRVFRU24RX9+H6N1Fj3759REdHA9C1a9d6m5pGjBjB6NGjiY6OJjo6mosvvpjExERycnKOef9iYmLIycmpXR48eDCLFy926/wa4kc1AsdPywO+czLf3M+ko0ePkpKSQk5ODomJiYwdOxaAgoICbrrpJrZs2YKIUFFRUfuaMWPGEBERAUC/fv3YuXMnBw8eZNSoUXTu3BmAiRMnsnnzZgCWLl3K+++/D8CNN97IAw88ULuv8ePHIyIkJycTFRVFcnIyAP3792fHjh2kpKQAjqahyMjI2tc1tM9rr72WgIAAiouLWbJkCddee23ttrKyMgBGjhzJ5MmTue6667jqqqtO6z3MyMjgd7/7HYcPH6a4uJiLL774hMcYMWIEf/rTn8jOzuaqq64iISHBrWM0dC6u51xXbm5u7e8EHB+8W7Zs4bzzzkNECAwMJCMjg6SkpHovFjnZC0jCw8OPSeAnQ0TqPd7WrVvZuHEj2dnZAIwdO5ZFixYREhLS4P66dOnCnj17TikWVx6tEYjIJSKySUS2isiD9WxvIyJznduXi0icp2Kx+Qj8V823z507d6KqtX0Ev//97xk9ejQZGRl8/PHHx1x7XdPkA47mkpNti3dVs69WrVods99WrVqd8n7btm0LQHV1Ne3bt6/tW0hPT2fjxo2A45v5448/zu7duxkyZAh5eXnH7ad///6kpaU1erzJkyfz97//nfXr1/PII4/Uvlf1HeOGG26o/dY/btw4tzs0GzoX13OuKyQk5Jjf3dtvv01+fj49e/YkLi6OHTt21NYKOnXqdExn7aFDh2qTr7vvxcnWCGqaeMCRtLp06XJcmQ8++IDhw4cTFhZGWFgYl156KUuXLqVbt261yQEctaJu3brVLtc0a54ujyUCEQkAXgIuBfoBk0SkX51itwD5qhoPPA/8BQ+xGoEJDQ3lhRde4Nlnn6WyspKCgoLaf6qG2uprDBs2jAULFpCXl0dFRQXvvPNO7bZzzz2XOXPmADBr1izOP//8047XnX22a9eOnj171saiqqxduxaAbdu2MWzYMKZNm0bnzp3ZvXs34eHhFBUV1b7+/vvv54knnqit2VRXV/PKK68cd5yioiKio6OpqKhg1qxZtevrO0ZWVha9evXirrvu4vLLL6/tk2lMQ+fSkMTERLZu3Vq7PHv2bD777DN27NjBjh07SEtLq30fR40axdy5cykvLwccv/fRo0cDcMMNN7BkyRI++eST2n0tXLiQjIyMY45XUyOo79GvX92POJgwYQIzZ84EYObMmVx++eXHlYmNjWXBggVUVlZSUVHBggULSExMJDo6mnbt2rFs2TJUlTfffPOY12/evPm4ZrFT4ckawVBgq6pmqWo5MAeo+w5cDsx0Pn8XGCMe+spudxYbgEGDBjFgwABmz57NAw88wEMPPcSgQYPc+mYeHR3No48+yogRIxg5ciSJiYm121588UXeeOMNBgwYwFtvvcXf/va3047V3X3OmjWL1157jYEDB9K/f38++ugjwPEhn5ycTFJSEueeey4DBw5k9OjRZGZmkpKSwty5cxkwYAB//etfmTRpEomJiSQlJdV7lc1jjz3GsGHDGDlyZG3H8omO8fbbb5OUlERKSgoZGRkndUXQic6lIX379qWgoICioiJ27NjBzp07j7lstGfPnkRERLB8+XIuu+wyzj//fIYMGUJKSgqLFy+u7bgNCQnhv//9Ly+++CIJCQn069ePl19++Zhmp1Px4IMP8uWX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\n",
+            "text/plain": [
+              "<Figure size 432x288 with 1 Axes>"
+            ]
+          },
+          "metadata": {
+            "tags": [],
+            "needs_background": "light"
+          }
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "mQv6kNA2WcMY",
+        "outputId": "03b727e2-37c9-4dfc-cf94-857ecae5afbd"
+      },
+      "source": [
+        "metrics.confusion_matrix(Y,Ypred1 )"
+      ],
+      "execution_count": 75,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "array([[399673,   6928],\n",
+              "       [ 87801,  38026]])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 75
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "IyWujDB4W8EJ"
+      },
+      "source": [
+        ""
+      ],
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
